@@ -1,0 +1,33 @@
+# ==========================================
+# 1. Python Telemetry Server Ignores
+# ==========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+*.env
+
+# ==========================================
+# 2. Flutter Frontend Subfolder Ignores
+# ==========================================
+# Targets the internal toolings inside front_end/
+front_end/.dart_tool/
+front_end/.flutter-plugins
+front_end/.flutter-plugins-dependencies
+front_end/.packages
+front_end/.metadata
+
+# Targets compilation outputs
+front_end/build/
+
+# Targets IDE-specific configurations
+front_end/.idea/
+front_end/.vscode/
+front_end/*.imar
+*.log
+
+# Mac specific files
+.DS_Store
