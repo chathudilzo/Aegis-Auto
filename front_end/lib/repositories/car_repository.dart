@@ -22,7 +22,7 @@ class CarRepository {
 }
 
 final carRepositoryProvider = Provider<CarRepository>((ref) {
-  final repository = CarRepository('ws://10.197.152.170:8765');
+  final repository = CarRepository('ws://10.163.178.170:8765');
 
   ref.onDispose(() {
     repository.dispose();
