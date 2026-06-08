@@ -37,7 +37,7 @@ class _DashboardTestScreenState extends ConsumerState<DashboardTestScreen> {
         children: [
           if (_currentMode == HmiMode.cockpit)
             O3D(
-              src: 'assets/mclaren_ready.glb',
+              src: 'assets/mclaren_ready4.glb',
               controller: _o3dController,
               ar: false,
               autoPlay: true,
