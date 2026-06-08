@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_end/dashboard/widgets/climate_bottom_bar.dart';
 import 'package:front_end/dashboard/widgets/hud_overlay.dart';
 import 'package:front_end/repositories/car_repository.dart';
 import 'package:o3d/o3d.dart';
@@ -78,6 +79,14 @@ class _DashboardTestScreenState extends ConsumerState<DashboardTestScreen> {
             right: 0,
             child: Center(
               child: _buildHmiTabBar(),
+            ),
+          ),
+          Positioned(
+            bottom: 5,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: ClimateBottomBar(),
             ),
           ),
         ],
