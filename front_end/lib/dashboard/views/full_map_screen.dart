@@ -17,7 +17,7 @@ class _FullMapNavigationScreenState
     extends ConsumerState<FullMapNavigationScreen> with OSMMixinObserver {
   late MapController _mapController;
   Timer? _movementTimer;
-
+  bool _isMapInitialized = false;
   List<GeoPoint> _dynamicRoute = [];
   int _currentRouteIndex = 0;
   double _fractionalIndex = 0.0;
@@ -40,7 +40,8 @@ class _FullMapNavigationScreenState
 
   @override
   Future<void> mapIsReady(bool isReady) async {
-    if (isReady) {
+    if (isReady && !_isMapInitialized) {
+      _isMapInitialized = true;
       try {
         RoadInfo roadInfo = await _mapController.drawRoad(
           _startPoint,
@@ -146,10 +147,8 @@ class _FullMapNavigationScreenState
         return;
       }
 
-      _currentCarPosition = newPosition;
-
       _breadcrumbTickCounter++;
-      if (_breadcrumbTickCounter >= 1) {
+      if (_breadcrumbTickCounter >= 20) {
         _breadcrumbTickCounter = 0;
         _dropBreadcrumb(oldPosition);
       }
@@ -160,17 +159,11 @@ class _FullMapNavigationScreenState
         await _mapController.changeLocationMarker(
           oldLocation: oldPosition,
           newLocation: newPosition,
-          markerIcon: const MarkerIcon(
-            icon: Icon(
-              Icons.navigation,
-              color: Colors.blue,
-              size: 40,
-            ),
-          ),
           angle: headingAngle,
         );
 
-        await _mapController.moveTo(newPosition, animate: true);
+        await _mapController.moveTo(newPosition, animate: false);
+        _currentCarPosition = newPosition;
       } catch (e) {
         debugPrint("Marker Update Skip: $e");
       }
@@ -181,7 +174,6 @@ class _FullMapNavigationScreenState
       setState(() {
         _currentRouteIndex = 0;
         _fractionalIndex = 0.0;
-        _currentCarPosition = resetPosition;
         _breadcrumbTickCounter = 0;
         _breadcrumbIdCounter = 0;
       });
@@ -192,16 +184,11 @@ class _FullMapNavigationScreenState
         await _mapController.changeLocationMarker(
           oldLocation: endPosition,
           newLocation: resetPosition,
-          markerIcon: const MarkerIcon(
-            icon: Icon(
-              Icons.navigation,
-              color: Colors.blue,
-              size: 40,
-            ),
-          ),
           angle: 0.0,
         );
+
         await _mapController.moveTo(resetPosition, animate: false);
+        _currentCarPosition = resetPosition;
       } catch (e) {
         debugPrint("Reset Skip: $e");
       }

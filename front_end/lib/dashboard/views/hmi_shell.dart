@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_end/dashboard/views/full_map_screen.dart';
+import 'package:front_end/dashboard/views/media_screen.dart';
 import 'package:front_end/dashboard/views/quick_access_scren.dart';
 import 'package:front_end/providers/nav_provider.dart';
 import 'dashboard_screen.dart';
@@ -39,7 +40,7 @@ class HmiShell extends ConsumerWidget {
                 const DashboardTestScreen(),
                 const QuickAccessScreen(),
                 FullMapNavigationScreen(),
-                _buildPlaceholderScreen('FULL SCREEN MEDIA', Colors.purple),
+                MediaScreen(),
               ],
             ),
           ),
