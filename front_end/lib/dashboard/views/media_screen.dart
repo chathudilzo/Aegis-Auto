@@ -121,8 +121,15 @@ class _MediaScreenState extends ConsumerState<MediaScreen>
   Widget build(BuildContext context) {
     final mediaState = ref.watch(mediaProvider);
     final currentTrack = mediaState.currentTrack;
-    _waveController.amplitude = mediaState.isPlaying ? 1.0 : 0.0;
-    _waveController.speed = mediaState.isPlaying ? 0.20 : 0.0;
+    ref.listen<MediaState>(mediaProvider, (previous, next) {
+      if (next.isPlaying) {
+        _waveController.amplitude = 1.0;
+        _waveController.speed = 0.20;
+      } else {
+        _waveController.amplitude = 0.0;
+        _waveController.speed = 0.0;
+      }
+    });
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
@@ -241,17 +248,27 @@ class _MediaScreenState extends ConsumerState<MediaScreen>
                                   ),
                                 ),
                               ),
-                              Center(
-                                child: SizedBox(
-                                  height: 140,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24),
-                                    child: SiriWaveform.ios9(
-                                      controller: _waveController,
-                                      options: const IOS9SiriWaveformOptions(
-                                        height: 140,
-                                        width: double.infinity,
-                                        showSupportBar: false,
+                              Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: SizedBox(
+                                      height: 140,
+                                      width: double.infinity,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: SiriWaveform.ios9(
+                                          key: ValueKey(mediaState.isPlaying),
+                                          controller: _waveController,
+                                          options:
+                                              const IOS9SiriWaveformOptions(
+                                            height: 140,
+                                            width: 360,
+                                            showSupportBar: false,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),

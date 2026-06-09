@@ -148,7 +148,7 @@ class _FullMapNavigationScreenState
       }
 
       _breadcrumbTickCounter++;
-      if (_breadcrumbTickCounter >= 20) {
+      if (_breadcrumbTickCounter >= 1) {
         _breadcrumbTickCounter = 0;
         _dropBreadcrumb(oldPosition);
       }

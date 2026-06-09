@@ -70,11 +70,13 @@ class MediaNotifier extends StateNotifier<MediaState> {
     _audioPlayer.playerStateStream.listen((playerState) {
       final isPlaying = playerState.playing;
       final processingState = playerState.processingState;
-
+      final isLoading = processingState == ProcessingState.loading ||
+          processingState == ProcessingState.buffering;
+      final isActivelyPlaying =
+          isPlaying && !isLoading && processingState != ProcessingState.idle;
       state = state.copyWith(
-        isPlaying: isPlaying,
-        isLoading: processingState == ProcessingState.loading ||
-            processingState == ProcessingState.buffering,
+        isPlaying: isActivelyPlaying,
+        isLoading: isLoading,
       );
     });
 
